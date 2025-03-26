@@ -40,6 +40,32 @@ Rectangle {
 
     Component.onCompleted: updateAltitudeModeText()
 
+    function getCoordinatesFromAddress(address) {
+    const url = "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(address) + "&format=json&limit=1"
+
+    var xhr = new XMLHttpRequest()
+    xhr.open("GET", url)
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var result = JSON.parse(xhr.responseText)
+                if (result.length > 0) {
+                    var lat = parseFloat(result[0].lat)
+                    var lon = parseFloat(result[0].lon)
+                    missionItem.coordinate = QtPositioning.coordinate(lat, lon)
+                    console.log("✅ Updated coordinate to:", lat, lon)
+                } else {
+                    console.warn("❗ No results found for: " + address)
+                }
+            } else {
+                console.warn("❌ Geocoding failed with status:", xhr.status)
+            }
+        }
+    }
+    xhr.send()
+}
+
+
     Connections {
         target:                 missionItem
         onAltitudeModeChanged:  updateAltitudeModeText()
@@ -280,6 +306,68 @@ Rectangle {
                 checked:    missionItem.cameraSection.settingsSpecified
                 visible:    missionItem.cameraSection.available
             }
+// user give address to coordinate
+            ColumnLayout {
+    spacing: _margin
+
+    QGCLabel {
+        text: "Enter address to set waypoint location"
+        font.pointSize: ScreenTools.smallFontPointSize
+    }
+
+    TextField {
+        id: addressInput
+        placeholderText: "Enter address (e.g. Taipei 101)"
+        Layout.fillWidth: true
+        onAccepted: {
+            getCoordinatesFromAddress(addressInput.text)
+        }
+    }
+
+    QGCButton {
+        text: "Convert to coordinate"
+        Layout.fillWidth: true
+        onClicked: {
+            getCoordinatesFromAddress(addressInput.text)
+        }
+    }
+}
+// menual set coordinate
+QGCLabel {
+    text: "Set coordinate"
+    font.pointSize: ScreenTools.smallFontPointSize
+}
+
+RowLayout {
+    spacing: _margin
+
+    QGCTextField {
+        id: latInput
+        placeholderText: "Latitude"
+        Layout.fillWidth: true
+    }
+
+    QGCTextField {
+        id: lonInput
+        placeholderText: "Longitude"
+        Layout.fillWidth: true
+    }
+}
+
+QGCButton {
+    text: "Set Coordinate"
+    Layout.fillWidth: true
+    onClicked: {
+        let lat = parseFloat(latInput.text)
+        let lon = parseFloat(lonInput.text)
+        if (!isNaN(lat) && !isNaN(lon)) {
+            missionItem.coordinate = QtPositioning.coordinate(lat, lon)
+            console.log(" Manually updated to:", lat, lon)
+        } else {
+            mainWindow.showMessageDialog("Invalid Input", "Please enter valid numbers for latitude and longitude.")
+        }
+    }
+}
         }
     }
 }

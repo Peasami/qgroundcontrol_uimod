@@ -139,6 +139,66 @@ QGCFlickable {
                             myGeoFenceController.addInclusionCircle(topLeftCoord, bottomRightCoord)
                         }
                     }
+// ──────────────── Add Manual Coordinate Input ────────────────
+QGCLabel { text: qsTr("Add Coordinate to Fence Polygon") }
+
+RowLayout {
+    spacing: _margin
+
+    QGCTextField {
+        id: latInput
+        placeholderText: qsTr("Latitude")
+        width: _editFieldWidth
+    }
+
+    QGCTextField {
+        id: lonInput
+        placeholderText: qsTr("Longitude")
+        width: _editFieldWidth
+    }
+
+    QGCButton {
+        text: qsTr("Add Point")
+        onClicked: {
+            let lat = parseFloat(latInput.text)
+            let lon = parseFloat(lonInput.text)
+            if (!isNaN(lat) && !isNaN(lon)) {
+                let coordinate = QtPositioning.coordinate(lat, lon)
+                myGeoFenceController.addPolygonCoordinate(coordinate)
+            } else {
+                mainWindow.showMessageDialog(qsTr("Invalid Input"), qsTr("Please enter valid numbers for latitude and longitude."))
+            }
+        }
+    }
+}
+Rectangle { height: _margin }
+
+        // ──────────────── Add Address Lookup Input ────────────────
+        QGCLabel { text: qsTr("Add Address to Fence Polygon") }
+
+        RowLayout {
+            spacing: _margin
+
+            QGCTextField {
+                id: addressInput
+                placeholderText: qsTr("Enter address (e.g. Taipei)")
+                width: _editFieldWidth * 2
+            }
+
+            QGCButton {
+                text: qsTr("Search & Add")
+                onClicked: {
+                    QGroundControl.geocodeAddress(addressInput.text, function(coordinate) {
+                        if (coordinate.isValid) {
+                            myGeoFenceController.addPolygonCoordinate(coordinate)
+                        } else {
+                            mainWindow.showMessageDialog(qsTr("Address Lookup Failed"), qsTr("Could not find location for given address."))
+                        }
+                    })
+                }
+            }
+        }
+
 
                     SectionHeader {
                         id:             polygonSection
