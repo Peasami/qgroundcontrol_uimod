@@ -1,8 +1,9 @@
-### 🌟 File changed9
+### 🌟 File changed
 - *🚀SimpleItemEditor.qml add user can put address then compile to cord. (UI only funcation is not done yet), user can put coorditations directly(Function is done).
   
 - *🚀GeoFenceEditor.qml -- user can put coorditations to set up fence too. Mouse move to change fence area.
-- 
+- *🚀planview.qml -- add two btn for follow me and drop item. Add icon .svg files
+- *🚀qgroundcontrol.qrc -- add alias files for icon use and show
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Dronecode/UX-Design/35d8148a8a0559cd4bcf50bfa2c94614983cce91/QGC/Branding/Deliverables/QGC_RGB_Logo_Horizontal_Positive_PREFERRED/QGC_RGB_Logo_Horizontal_Positive_PREFERRED.svg" alt="QGroundControl Logo" width="500">
