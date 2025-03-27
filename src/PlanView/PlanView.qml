@@ -290,6 +290,45 @@ Item {
         var nextIndex = _missionController.currentPlanViewVIIndex + 1
         _missionController.insertLandItem(mapCenter(), nextIndex, true /* makeCurrentItem */)
     }
+    //add drop btn function
+    function insertDropItemMission() {
+    const index = _missionController.currentPlanViewVIIndex
+    if (index < 0) {
+        mainWindow.showMessageDialog(qsTr("Drop Item"), qsTr("Please select a waypoint as drop location."))
+        return
+    }
+
+    const item = _visualItems.get(index)
+    if (!item || !item.coordinate || isNaN(item.coordinate.altitude)) {
+        mainWindow.showMessageDialog(qsTr("Drop Item"), qsTr("Invalid coordinates or altitude in selected item."))
+        return
+    }
+
+    const lat = item.coordinate.latitude
+    const lon = item.coordinate.longitude
+    const alt = parseFloat(item.coordinate.altitude)
+    const nextIndex = index + 1
+
+    // Fly to the exact point again (optional)
+    const flyCoord = QtPositioning.coordinate(lat, lon, alt)
+    _missionController.insertSimpleMissionItem(flyCoord, nextIndex, true)
+
+    // Descend to drop point
+    const descendCoord = QtPositioning.coordinate(lat, lon, alt - 10)
+    _missionController.insertSimpleMissionItem(descendCoord, nextIndex + 1, true)
+
+    // Trigger drop via servo (servo 9, PWM 180 – adjust for your setup)
+    _missionController.insertCommandMissionItem(
+        MavlinkCommand.MAV_CMD_DO_SET_SERVO,
+        nextIndex + 2,
+        {
+            param1: 9,    // Servo ID
+            param2: 180,  // PWM value to trigger drop
+        }
+    )
+}
+
+//end of drop btn function 
 
 
     function selectNextNotReady() {
@@ -566,6 +605,9 @@ Item {
             readonly property int patternButtonIndex:   5
             readonly property int landButtonIndex:      6
             readonly property int centerButtonIndex:    7
+            // add drop btn
+            //readonly property int dropItemButtonIndex:  8
+            readonly property int _editingLayer: !_utmspEnabled ? (layerTabBar.currentIndex ? _layers[layerTabBar.currentIndex] : _layerMission) : (layerTabBarUTMSP.currentIndex ? _layersUTMSP[layerTabBarUTMSP.currentIndex] : _layerMission)
 
             property bool _isRallyLayer:    _editingLayer == _layerRallyPoints
             property bool _isMissionLayer:  _editingLayer == _layerMission
@@ -651,10 +693,31 @@ Item {
                         enabled:            true
                         visible:            true
                         dropPanelComponent: centerMapDropPanel
-                    }
+                    },
+        // add drop btn
+        ToolStripAction {
+    text:       qsTr("Drop Item")
+    iconSource: "qrc:/qml/DropItemIcon_white.svg"// customize the icon
+    enabled:    toolStrip._isMissionLayer || toolStrip._isUtmspLayer
+    visible:    toolStrip._isMissionLayer || toolStrip._isUtmspLayer
+    onTriggered: {
+        toolStrip.allAddClickBoolsOff()
+        insertDropItemMission()
+    }
+    },
+    //end of drop item
+    //follow me icon
+    ToolStripAction {
+    text:       qsTr("Follow me")
+    iconSource: "qrc:/qml/followme_white.svg" // customize the icon
+    enabled:    toolStrip._isMissionLayer || toolStrip._isUtmspLayer
+    visible:    toolStrip._isMissionLayer || toolStrip._isUtmspLayer
+    }
+//end follow me                    
+                    
                 ]
             }
-
+            
             model: toolStripActionList.model
 
             function allAddClickBoolsOff() {

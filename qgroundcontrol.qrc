@@ -22,6 +22,10 @@
         <file alias="SubChecklist.qml">src/FlightDisplay/SubChecklist.qml</file>
     </qresource>
     <qresource prefix="/qml">
+        <file alias="DropItemIcon.svg">src/PlanView/DropItemIcon.svg</file>
+        <file alias="DropItemIcon_white.svg">src/PlanView/DropItemIcon_white.svg</file>
+        <file alias="followme_white.svg">src/PlanView/followme_white.svg</file>
+
         <file alias="QGroundControl/Controls/HeightIndicator.qml">src/QmlControls/HeightIndicator.qml</file>
         <file alias="QGroundControl/Controls/QGCDynamicObjectManager.qml">src/QmlControls/QGCDynamicObjectManager.qml</file>
         <file alias="QGroundControl/Controls/QGCOptionsComboBox.qml">src/QmlControls/QGCOptionsComboBox.qml</file>
