@@ -47,20 +47,22 @@ ListModel {
         iconUrl: "qrc:/InstrumentValueIcons/drone.svg"
         pageVisible: function() { return true }
     }
-
+/*
     ListElement {
         name: qsTr("ADSB Server")
         url: "/qml/ADSBServerSettings.qml"
         iconUrl: "qrc:/InstrumentValueIcons/airplane.svg"
         pageVisible: function() { return true }
     }
-
+*/
+/*
     ListElement {
         name: qsTr("Comm Links")
         url: "/qml/LinkSettings.qml"
         iconUrl: "qrc:/InstrumentValueIcons/usb.svg"
         pageVisible: function() { return true }
     }
+*/
 
     ListElement {
         name: qsTr("Maps")
@@ -68,7 +70,7 @@ ListModel {
         iconUrl: "qrc:/InstrumentValueIcons/globe.svg"
         pageVisible: function() { return true }
     }
-
+/*
     ListElement {
         name: qsTr("PX4 Log Transfer")
         url: "/qml/PX4LogTransferSettings.qml"
@@ -80,14 +82,15 @@ ListModel {
                         (activeVehicle ? activeVehicle.px4Firmware : true)
         }
     }
-
+*/
+/*
     ListElement {
         name: qsTr("Remote ID")
         url: "/qml/RemoteIDSettings.qml"
         iconUrl: "qrc:/qmlimages/RidIconManNoID.svg"
         pageVisible: function() { return true }
     }
-
+*/
     ListElement {
         name: qsTr("Console")
         url: "/qml/QGroundControl/Controls/AppMessages.qml"

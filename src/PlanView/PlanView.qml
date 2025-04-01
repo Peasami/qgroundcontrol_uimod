@@ -616,7 +616,8 @@ Item {
             ToolStripActionList {
                 id: toolStripActionList
                 model: [
-                    ToolStripAction {
+                    /*
+                       ToolStripAction {
                         text:                   qsTr("File")
                         enabled:                !_planMasterController.syncInProgress
                         visible:                true
@@ -625,6 +626,8 @@ Item {
                         alternateIconSource:    "/qmlimages/MapSyncChanged.svg"
                         dropPanelComponent:     syncDropPanel
                     },
+                    */
+                 
                     ToolStripAction {
                         text:       qsTr("Takeoff")
                         iconSource: "/res/takeoff.svg"
@@ -660,6 +663,7 @@ Item {
                         property bool myAddROIOnClick: _addROIOnClick
                         onMyAddROIOnClickChanged: checked = _addROIOnClick
                     },
+                    /*
                     ToolStripAction {
                         text:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : qsTr("Pattern")
                         iconSource:         "/qmlimages/MapDrawShape.svg"
@@ -673,6 +677,7 @@ Item {
                             }
                         }
                     },
+                    */
                     ToolStripAction {
                         text:       _planMasterController.controllerVehicle.multiRotor
                                     ? qsTr("Return")
@@ -693,8 +698,9 @@ Item {
                         enabled:            true
                         visible:            true
                         dropPanelComponent: centerMapDropPanel
-                    },
+                    }
         // add drop btn
+        /*
         ToolStripAction {
     text:       qsTr("Drop Item")
     iconSource: "qrc:/qml/DropItemIcon_white.svg"// customize the icon
@@ -713,7 +719,8 @@ Item {
     enabled:    toolStrip._isMissionLayer || toolStrip._isUtmspLayer
     visible:    toolStrip._isMissionLayer || toolStrip._isUtmspLayer
     }
-//end follow me                    
+//end follow me       
+             */
                     
                 ]
             }
