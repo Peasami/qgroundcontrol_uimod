@@ -633,6 +633,17 @@ FlightMap {
 
                     QGCButton {
                         Layout.fillWidth:   true
+                        text:               qsTr("San test")
+                        visible:            true
+                        onClicked: {
+                            mapClickDropPanel.close()
+                            // var nextIndex = _missionController.currentPlanViewVIIndex + 1
+                            globals.guidedControllerFlyView.confirmAction(globals.guidedControllerFlyView.actionSetWaypoint, Math.max(object.sequenceNumber, 1))
+                        }
+                    }
+
+                    QGCButton {
+                        Layout.fillWidth:   true
                         text:               qsTr("Set Estimator Origin")
                         visible:            globals.guidedControllerFlyView.showSetEstimatorOrigin
                         onClicked: {
