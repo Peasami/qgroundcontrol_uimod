@@ -12,6 +12,8 @@
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QObject>
 
+#include "httprequestmanager.h" //San remove later
+
 Q_DECLARE_LOGGING_CATEGORY(GPSManagerLog)
 
 class GPSRtk;
@@ -28,6 +30,11 @@ public:
 
     GPSRtk *gpsRtk() { return _gpsRtk; }
 
+private slots:
+    void handleResponse(const QByteArray &response); //San remove later
+
 private:
     GPSRtk *_gpsRtk = nullptr;
+
+    RequestManager *requestManager; //San remove later
 };
