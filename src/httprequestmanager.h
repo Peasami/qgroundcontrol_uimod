@@ -13,7 +13,10 @@ class RequestManager : public QObject {
     explicit RequestManager(QObject *parent = nullptr);
     void GET(const QString &url);
 
-    Q_INVOKABLE QByteArray getCoordinates(const QString searchingLocation);
+    Q_INVOKABLE void getCoordinates(const QString searchingLocation);
+    Q_INVOKABLE void testFunc();
+
+    static void registerQmlTypes();
 
    signals:
     void requestFinished(const QByteArray &response);

@@ -26,7 +26,7 @@ GPSManager::GPSManager(QObject *parent)
     connect(requestManager, &RequestManager::requestFinished, this, &GPSManager::handleResponse);
 
     // Send a GET request
-    requestManager->GET("https://nominatim.openstreetmap.org/search.php?q=kaijonharju&format=jsonv2");
+    requestManager->GET("kaijonharju");
 
     // qCDebug(GPSManagerLog) << Q_FUNC_INFO << this;
 }

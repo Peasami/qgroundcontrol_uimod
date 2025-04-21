@@ -45,7 +45,7 @@ ToolStripActionList {
             }
         },
         PreFlightCheckListShowAction { onTriggered: displayPreFlightChecklist() },
-        GuidedActionTakeoff { }, //San takeoff button
+        GuidedActionTakeoff { }, //San takeoff button location
         GuidedActionLand { },
         GuidedActionRTL { },
         GuidedActionPause { },

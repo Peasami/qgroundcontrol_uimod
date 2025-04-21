@@ -23,6 +23,8 @@ import QGroundControl.Palette
 import QGroundControl.ScreenTools
 import QGroundControl.Vehicle
 
+import HTTPModel
+
 FlightMap {
     id:                         _root
     allowGCSLocationCenter:     true
@@ -47,6 +49,12 @@ FlightMap {
     property real   _toolsMargin:               ScreenTools.defaultFontPixelWidth * 0.75
     property var    _flyViewSettings:           QGroundControl.settingsManager.flyViewSettings
     property bool   _keepMapCenteredOnVehicle:  _flyViewSettings.keepMapCenteredOnVehicle.rawValue
+
+    // property var _httpRequestManager: HTTPRequestManager
+
+    HTTPRequestManager {
+        id: _httpRequestManager
+    }
 
     property bool   _disableVehicleTracking:    false
     property bool   _keepVehicleCentered:       pipMode ? true : false
@@ -633,12 +641,12 @@ FlightMap {
 
                     QGCButton {
                         Layout.fillWidth:   true
-                        text:               qsTr("San test")
+                        text:               qsTr("Test httprequestmanager")
                         visible:            true
                         onClicked: {
                             mapClickDropPanel.close()
-                            // var nextIndex = _missionController.currentPlanViewVIIndex + 1
-                            globals.guidedControllerFlyView.confirmAction(globals.guidedControllerFlyView.actionSetWaypoint, Math.max(object.sequenceNumber, 1))
+                            _httpRequestManager.testFunc()
+                            _httpRequestManager.getCoordinates("haukipudas")
                         }
                     }
 

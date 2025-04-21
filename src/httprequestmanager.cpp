@@ -4,13 +4,17 @@
 #include <QDebug>
 #include <QJsonDocument>
 
+#include <QtQml/qqml.h>
+
 RequestManager::RequestManager(QObject *parent) : QObject(parent) {
     networkManager = new QNetworkAccessManager(this);
     // _missionController = new MissionController() //San fix this
 }
 
-void RequestManager::GET(const QString &url) {
-    qDebug() << "Sending GET request to:" << url;
+void RequestManager::GET(const QString &keyword) {
+    qDebug() << "Sending GET request to:" << keyword;
+
+    QString url = "https://nominatim.openstreetmap.org/search.php?q=" + keyword + "&format=jsonv2";
 
     QNetworkRequest request;
     request.setUrl(QUrl(url));
@@ -20,12 +24,20 @@ void RequestManager::GET(const QString &url) {
     connect(reply, &QNetworkReply::finished, this, &RequestManager::onReplyFinished);
 }
 
-QByteArray RequestManager::getCoordinates(const QString searchingLocation)
+void RequestManager::getCoordinates(const QString searchingLocation)
 {
     GET(searchingLocation);
-    QByteArray data = QByteArray("Test data for RequestManager::getCoordinates()");
+}
 
-    return data;
+void RequestManager::testFunc()
+{
+    qDebug() << "Calling httprequestmanager void testFunc()";
+}
+
+void RequestManager::registerQmlTypes()
+{
+    qDebug() << "HTTPRequestManager qml registered";
+    (void) qmlRegisterType<RequestManager>("HTTPModel", 1, 0, "HTTPRequestManager");
 }
 
 void RequestManager::onReplyFinished() {
