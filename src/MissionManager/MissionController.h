@@ -127,7 +127,7 @@ public:
     ///     @param visualItemIndex: index to insert at, -1 for end of list
     ///     @param makeCurrentItem: true: Make this item the current item
     /// @return Newly created item
-    Q_INVOKABLE VisualMissionItem* insertSimpleMissionItem(QGeoCoordinate coordinate, int visualItemIndex, bool makeCurrentItem = false);
+    Q_INVOKABLE VisualMissionItem* insertSimpleMissionItem(QGeoCoordinate coordinate, int visualItemIndex, bool makeCurrentItem = false); //San insert mission item
 
     /// Add a new takeoff item to the list
     ///     @param coordinate: Coordinate for item

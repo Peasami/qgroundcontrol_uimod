@@ -5,6 +5,7 @@ qt_add_library(QGC STATIC
     CmdLineOptParser.h
     QGCApplication.cc
     QGCApplication.h
+    httprequestmanager.h httprequestmanager.cpp
 )
 
 # qt_add_qml_module(QGC

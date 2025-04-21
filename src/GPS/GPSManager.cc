@@ -21,7 +21,19 @@ GPSManager::GPSManager(QObject *parent)
     : QObject(parent)
     , _gpsRtk(new GPSRtk(this))
 {
+    //San remove later
+    requestManager = new RequestManager(this);
+    connect(requestManager, &RequestManager::requestFinished, this, &GPSManager::handleResponse);
+
+    // Send a GET request
+    requestManager->GET("https://nominatim.openstreetmap.org/search.php?q=kaijonharju&format=jsonv2");
+
     // qCDebug(GPSManagerLog) << Q_FUNC_INFO << this;
+}
+
+//San remove later
+void GPSManager::handleResponse(const QByteArray &response) {
+    qDebug() << "GPSManager received response:" << response;
 }
 
 GPSManager::~GPSManager()
