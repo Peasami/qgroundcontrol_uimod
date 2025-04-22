@@ -3,8 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtPositioning
 
-import QtPositioning
-
 import QGroundControl
 import QGroundControl.ScreenTools
 import QGroundControl.Vehicle
