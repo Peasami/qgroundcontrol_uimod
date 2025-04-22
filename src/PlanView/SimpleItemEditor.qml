@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import QtPositioning
+
 import QGroundControl
 import QGroundControl.ScreenTools
 import QGroundControl.Vehicle
@@ -41,29 +43,29 @@ Rectangle {
     Component.onCompleted: updateAltitudeModeText()
 
     function getCoordinatesFromAddress(address) {
-    const url = "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(address) + "&format=json&limit=1"
+        const url = "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(address) + "&format=json&limit=1"
 
-    var xhr = new XMLHttpRequest()
-    xhr.open("GET", url)
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var result = JSON.parse(xhr.responseText)
-                if (result.length > 0) {
-                    var lat = parseFloat(result[0].lat)
-                    var lon = parseFloat(result[0].lon)
-                    missionItem.coordinate = QtPositioning.coordinate(lat, lon)
-                    console.log("✅ Updated coordinate to:", lat, lon)
+        var xhr = new XMLHttpRequest()
+        xhr.open("GET", url)
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var result = JSON.parse(xhr.responseText)
+                    if (result.length > 0) {
+                        var lat = parseFloat(result[0].lat)
+                        var lon = parseFloat(result[0].lon)
+                        missionItem.coordinate = QtPositioning.coordinate(lat, lon)
+                        console.log("✅ Updated coordinate to:", lat, lon)
+                    } else {
+                        console.warn("❗ No results found for: " + address)
+                    }
                 } else {
-                    console.warn("❗ No results found for: " + address)
+                    console.warn("❌ Geocoding failed with status:", xhr.status)
                 }
-            } else {
-                console.warn("❌ Geocoding failed with status:", xhr.status)
             }
         }
+        xhr.send()
     }
-    xhr.send()
-}
 
 
     Connections {
