@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtPositioning
 
 import QGroundControl
 import QGroundControl.ScreenTools
