@@ -5,8 +5,9 @@ PythonManager::PythonManager(QObject *parent) : QObject{parent} {}
 
 void PythonManager::callPythonScript(int index)
 {
-    qDebug() << "Calling system script";
-    system("dir");
+    qDebug() << "Calling python script";
+    /// Python script path
+    system("cmd /K \"python D:\\PythonScripts\\1.py\"");
 }
 
 void PythonManager::registerQmlTypes()
