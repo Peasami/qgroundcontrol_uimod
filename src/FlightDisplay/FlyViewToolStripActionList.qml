@@ -11,6 +11,9 @@ import QtQml.Models
 
 import QGroundControl
 import QGroundControl.Controls
+import PythonManager
+
+import QtQuick
 
 ToolStripActionList {
     id: _root
@@ -18,6 +21,12 @@ ToolStripActionList {
     signal displayPreFlightChecklist
 
     model: [
+        Item{
+            PythonManager{
+                id: pythonManager
+            }
+            visible: false
+        },
         ToolStripAction {
             property bool _is3DViewOpen:            viewer3DWindow.isOpen
             property bool   _viewer3DEnabled:       QGroundControl.settingsManager.viewer3DSettings.enabled.rawValue
@@ -42,6 +51,13 @@ ToolStripActionList {
                     iconSource =     "/qmlimages/Viewer3D/City3DMapIcon.svg"
                     text =           qsTr("3D View")
                 }
+            }
+        },
+        ToolStripAction {
+            text: qsTr("Call python 1")
+            onTriggered:{
+                console.debug("Call python 1 onTriggered")
+                pythonManager.callPythonScript()
             }
         },
         PreFlightCheckListShowAction { onTriggered: displayPreFlightChecklist() },

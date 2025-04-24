@@ -6,6 +6,7 @@ qt_add_library(QGC STATIC
     QGCApplication.cc
     QGCApplication.h
     httprequestmanager.h httprequestmanager.cpp
+    pythonmanager.h pythonmanager.cpp
 )
 
 # qt_add_qml_module(QGC
