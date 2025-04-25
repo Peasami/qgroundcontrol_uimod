@@ -54,7 +54,7 @@ ToolStripActionList {
             }
         },
         ToolStripAction {
-            text: qsTr("Call python 1")
+            text: qsTr("Lights")
             onTriggered:{
                 console.debug("Call python 1 onTriggered")
                 pythonManager.callPythonScript()
