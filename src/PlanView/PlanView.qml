@@ -69,6 +69,35 @@ Item {
     readonly property int       _layerUTMSP:                4 // Additional Tab button when UTMSP is enabled
     readonly property string    _armedVehicleUploadPrompt:  qsTr("Vehicle is currently armed. Do you want to upload the mission to the vehicle?")
 
+    function getCoordinatesFromAddress(address) {
+        return new Promise(function(resolve, reject) {
+            const url = "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(address) + "&format=json&limit=1"
+
+            var xhr = new XMLHttpRequest()
+            xhr.open("GET", url)
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var result = JSON.parse(xhr.responseText)
+                        if (result.length > 0) {
+                            var lat = parseFloat(result[0].lat)
+                            var lon = parseFloat(result[0].lon)
+                            var coordinate = QtPositioning.coordinate(lat, lon)
+                            console.log("✅ Updated coordinate to:", lat, lon)
+                            resolve(coordinate)
+                        } else {
+                            console.warn("❗ No results found for: " + address)
+                            reject("No results found")
+                        }
+                    } else {
+                        console.warn("❌ Geocoding failed with status:", xhr.status)
+                        reject("Request failed with status " + xhr.status)
+                    }
+                }
+            }
+            xhr.send()
+        })
+    }
 
     function mapCenter() {
         var coordinate = editorMap.center
@@ -264,6 +293,10 @@ Item {
     function insertSimpleItemAfterCurrent(coordinate) {
         var nextIndex = _missionController.currentPlanViewVIIndex + 1
         _missionController.insertSimpleMissionItem(coordinate, nextIndex, true /* makeCurrentItem */)
+    }
+
+    function insertSimpleItemAtTheEnd(coordinate) {
+        _missionController.insertSimpleMissionItem(coordinate, -1, true /* makeCurrentItem */)
     }
 
     function insertROIAfterCurrent(coordinate) {
@@ -980,6 +1013,24 @@ Item {
                                                       UTMSPStateStorage.indicatorApprovedStatus = false;
                                                       UTMSPStateStorage.indicatorActivatedStatus = false;
                                                       UTMSPStateStorage.currentStateIndex = 0}})
+    }
+
+    QGCTextField {
+        id:                     searchCoordinateField
+        anchors.left: parent.left
+        anchors.leftMargin: 100
+        anchors.top: planToolBar.bottom
+        Layout.fillWidth: true
+        placeholderText:  qsTr("Address...")
+        onEditingFinished: {
+            console.log("qgctextfield onEditingFinished")
+            getCoordinatesFromAddress(searchCoordinateField.text)
+                .then(function(searchParameter) {
+                    insertSimpleItemAtTheEnd(searchParameter)
+                })
+            searchCoordinateField.text = ""
+            // insertSimpleItemAtTheEnd(searchParameter)
+        }
     }
 
     //- ToolStrip ToolStripDropPanel Components
