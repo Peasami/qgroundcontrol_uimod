@@ -54,7 +54,28 @@ ToolStripActionList {
             }
         },
         ToolStripAction {
-            text: qsTr("Lights")
+            text: qsTr("Down")
+            onTriggered:{
+                console.debug("Call python 1 onTriggered")
+                pythonManager.callPythonScript()
+            }
+        },
+        ToolStripAction {
+            text: qsTr("Left")
+            onTriggered:{
+                console.debug("Call python 1 onTriggered")
+                pythonManager.callPythonScript()
+            }
+        },
+        ToolStripAction {
+            text: qsTr("Right")
+            onTriggered:{
+                console.debug("Call python 1 onTriggered")
+                pythonManager.callPythonScript()
+            }
+        },
+        ToolStripAction {
+            text: qsTr("X")
             onTriggered:{
                 console.debug("Call python 1 onTriggered")
                 pythonManager.callPythonScript()

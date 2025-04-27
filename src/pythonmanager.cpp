@@ -7,7 +7,7 @@ void PythonManager::callPythonScript(int index)
 {
     qDebug() << "Calling python script";
     /// Python script path
-    system("cmd /K \"python D:\\PythonScripts\\1.py\"");
+    // system("cmd /K \"python D:\\PythonScripts\\1.py\"");
 }
 
 void PythonManager::registerQmlTypes()
